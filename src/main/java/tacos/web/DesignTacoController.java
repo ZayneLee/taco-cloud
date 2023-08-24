@@ -2,7 +2,6 @@ package tacos.web;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 import tacos.Ingredient;
+import tacos.Ingredient.Type;
 import tacos.Taco;
 import tacos.TacoOrder;
-import tacos.Ingredient.Type;
 
 @Slf4j
 @Controller
@@ -73,6 +72,6 @@ public class DesignTacoController {
         log.info("Processing taco : {}", taco);
 
         return "redirect:/orders/current";
-    
+
     }
 }
