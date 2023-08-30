@@ -33,6 +33,9 @@
 
       <label for="deliveryCity">City: </label>
       <input type="text" th:field="*{deliveryCity}"/>
+      <span class="validationError"
+            th:if="${#fields.hasErrors('deliveryCity')}"
+            th:errors="*{deliveryCity}">City is required</span>
       <br/>
 
       <label for="deliveryState">State: </label>
@@ -41,6 +44,9 @@
 
       <label for="deliveryZip">Zip code: </label>
       <input type="text" th:field="*{deliveryZip}"/>
+      <span class="validationError"
+            th:if="${#fields.hasErrors('deliveryZip')}"
+            th:errors="*{deliveryZip}">Zip code is required</span>
       <br/>
 
       <h3>Here's how I'll pay...</h3>
@@ -48,15 +54,21 @@
       <input type="text" th:field="*{ccNumber}"/>
       <span class="validationError"
             th:if="${#fields.hasErrors('ccNumber')}"
-            th:errors="*{ccNumber}">CC Num Error</span>
+            th:errors="*{ccNumber}">Not a valid credit card number</span>
       <br/>
 
       <label for="ccExpiration">Expiration: </label>
       <input type="text" th:field="*{ccExpiration}"/>
+      <span class="validationError"
+            th:if="${#fields.hasErrors('ccExpiration')}"
+            th:errors="*{ccExpiration}">Must be formatted MM/YY</span>      
       <br/>
 
       <label for="ccCVV">CVV: </label>
       <input type="text" th:field="*{ccCVV}"/>
+      <span class="validationError"
+            th:if="${#fields.hasErrors('ccCVV')}"
+            th:errors="*{ccCVV}">Invalid CVV</span>
       <br/>
 
       <input type="submit" value="Submit Order"/>
