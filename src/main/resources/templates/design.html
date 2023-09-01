@@ -16,6 +16,10 @@
       <div class="ingredient-group" id="wraps">
       <h3>Designate your wrap:</h3>
       <div th:each="ingredient : ${wrap}">
+        <!-- 
+          The model attribute is accessed using the ${} notation.
+          and each element of the list is passed to the body of the loop via the student variable.
+        -->
         <input name="ingredients" type="checkbox" th:value="${ingredient.id}" />
         <span th:text="${ingredient.name}">INGREDIENT</span><br/>
       </div>
