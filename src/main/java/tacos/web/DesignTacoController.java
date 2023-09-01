@@ -27,6 +27,9 @@ import tacos.TacoOrder;
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
 
+    // The 'addIngredientsToModel' method populates the model with a list of
+    // 'Ingredient' objects grouped by their 'Type' and adds them as model
+    // attributes.
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = Arrays.asList(
@@ -47,11 +50,15 @@ public class DesignTacoController {
         }
     }
 
+    // Creates a model attribute named "tacoOrder" and associates it with the
+    // 'TacoOrder' class.
     @ModelAttribute(name = "tacoOrder")
     public TacoOrder order() {
         return new TacoOrder();
     }
 
+    // Creates a model attribute named "taco" and associates it with the 'Taco'
+    // class.
     @ModelAttribute(name = "taco")
     public Taco taco() {
         return new Taco();
