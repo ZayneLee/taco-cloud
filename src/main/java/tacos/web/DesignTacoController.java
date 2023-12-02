@@ -1,5 +1,6 @@
 package tacos.web;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,22 +42,30 @@ public class DesignTacoController {
     // attributes.
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = Arrays.asList(
-                new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
-                new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
-                new Ingredient("GRBF", "Ground Beef", Type.PROTEIN),
-                new Ingredient("CARN", "Carnitas", Type.PROTEIN),
-                new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES),
-                new Ingredient("LETC", "Lettuce", Type.VEGGIES),
-                new Ingredient("CHED", "Cheddar", Type.CHEESE),
-                new Ingredient("JACK", "Monterrey Jack", Type.CHEESE),
-                new Ingredient("SLSA", "Salsa", Type.SAUCE),
-                new Ingredient("SRCR", "Sour Cream", Type.SAUCE));
+
+        // List<Ingredient> ingredients = Arrays.asList(
+        // new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
+        // new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
+        // new Ingredient("GRBF", "Ground Beef", Type.PROTEIN),
+        // new Ingredient("CARN", "Carnitas", Type.PROTEIN),
+        // new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES),
+        // new Ingredient("LETC", "Lettuce", Type.VEGGIES),
+        // new Ingredient("CHED", "Cheddar", Type.CHEESE),
+        // new Ingredient("JACK", "Monterrey Jack", Type.CHEESE),
+        // new Ingredient("SLSA", "Salsa", Type.SAUCE),
+        // new Ingredient("SRCR", "Sour Cream", Type.SAUCE));
+
+        Iterable<Ingredient> ingredients = ingredientRepo.findAll();
 
         Type[] types = Ingredient.Type.values();
+
+        List<Ingredient> ingredientsOfType = new ArrayList<>();
+        ingredients.forEach(ingredientsOfType::add);
+
         for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
+            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredientsOfType, type));
         }
+
     }
 
     // Creates a model attribute named "tacoOrder" and associates it with the
