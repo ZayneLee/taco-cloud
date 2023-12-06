@@ -13,12 +13,14 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import tacos.Ingredient;
 import tacos.IngredientRef;
 import tacos.Taco;
 import tacos.TacoOrder;
 
 @Repository
+@Slf4j
 public class JdbcOrderRepository implements OrderRepository {
 
         private JdbcOperations jdbcOperations;
@@ -30,6 +32,7 @@ public class JdbcOrderRepository implements OrderRepository {
         @Override
         @Transactional
         public TacoOrder save(TacoOrder order) {
+                log.info("JdbcOrderRepository submitted: {}", order);
                 PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
                                 "insert into Taco_Order "
                                                 + "(delivery_name, delivery_street, delivery_city, "
