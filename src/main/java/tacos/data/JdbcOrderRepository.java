@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import tacos.Ingredient;
-import tacos.IngredientRef;
 import tacos.Taco;
 import tacos.TacoOrder;
 
