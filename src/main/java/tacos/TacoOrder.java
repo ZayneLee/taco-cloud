@@ -10,14 +10,26 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.Data;
 
 @Data
+@Table
+/*
+ * @Table is mapped to a table based on the domain class name.
+ * In this case, TocoOrder is mapped to a table named "Taco_Order"
+ * If you'd prefer to map it to a different table name, then you cna specify the
+ * table name as a parameter to @Table like this:
+ * 
+ * @Table("Taco_Cloud_Order")
+ */
 public class TacoOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
     private Long id;
 
     private Date placedAt;
