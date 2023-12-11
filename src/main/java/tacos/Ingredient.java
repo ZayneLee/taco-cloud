@@ -1,18 +1,18 @@
 package tacos;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.domain.Persistable;
-import org.springframework.data.relational.core.mapping.Table;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Table
-@NoArgsConstructor // Add a default constructor
+@Entity
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @AllArgsConstructor // Keep the all-args constructor for internal use
-public class Ingredient implements Persistable<String> {
+public class Ingredient {
 
     @Id
     private String id;
@@ -21,10 +21,5 @@ public class Ingredient implements Persistable<String> {
 
     public enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
-    }
-
-    @Override
-    public boolean isNew() {
-        return id == null; // Implement logic for determining if the entity is new
     }
 }
