@@ -35,14 +35,14 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(usersList);
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepo) {
-        return username -> {
-            tacos.User user = userRepo.findByUsername(username);
-            if (user != null)
-                return user;
+    // @Bean
+    // public UserDetailsService userDetailsService(UserRepository userRepo) {
+    // return username -> {
+    // tacos.User user = userRepo.findByUsername(username);
+    // if (user != null)
+    // return user;
 
-            throw new UsernameNotFoundException("User '" + username + "' not found");
-        };
-    }
+    // throw new UsernameNotFoundException("User '" + username + "' not found");
+    // };
+    // }
 }
