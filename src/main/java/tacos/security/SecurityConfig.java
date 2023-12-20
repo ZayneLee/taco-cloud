@@ -40,7 +40,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeRequests().antMatchers("/design", "/orders").hasRole("USER").antMatchers("/", "/**")
-                .permitAll().and().build();
+                .permitAll().and().formLogin().loginPage("/login").and().build();
     }
 
     // @Bean
