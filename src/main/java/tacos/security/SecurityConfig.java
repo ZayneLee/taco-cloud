@@ -11,13 +11,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import tacos.data.UserRepository;
 
 @Configuration
 public class SecurityConfig {
@@ -25,6 +26,11 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder PasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository() {
+        return new CustomClientRegistrationRepository();
     }
 
     @Bean
@@ -39,19 +45,37 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeRequests().antMatchers("/design", "/orders").hasRole("USER").antMatchers("/", "/**")
+        return http.authorizeRequests().mvcMatchers("/design", "/orders").hasRole("USER").antMatchers("/", "/**")
                 .permitAll().and().formLogin().loginPage("/login").and().oauth2Login().loginPage("/login")
                 .defaultSuccessUrl("/design", true).and().build();
     }
 
-    // @Bean
-    // public UserDetailsService userDetailsService(UserRepository userRepo) {
-    // return username -> {
-    // tacos.User user = userRepo.findByUsername(username);
-    // if (user != null)
-    // return user;
+    private class CustomClientRegistrationRepository implements ClientRegistrationRepository {
 
-    // throw new UsernameNotFoundException("User '" + username + "' not found");
-    // };
-    // }
+        @Override
+        public ClientRegistration findByRegistrationId(String registrationId) {
+            if ("facebook".equals(registrationId)) {
+                return ClientRegistration.withRegistrationId("facebook")
+                        .clientId("329187793397695")
+                        .clientSecret("ce1420447166e7486df7c7fb8109b5f2")
+                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                        // .redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
+                        .scope("email", "public_profile")
+                        .build();
+            }
+            return null;
+        }
+
+        // @Bean
+        // public UserDetailsService userDetailsService(UserRepository userRepo) {
+        // return username -> {
+        // tacos.User user = userRepo.findByUsername(username);
+        // if (user != null)
+        // return user;
+
+        // throw new UsernameNotFoundException("User '" + username + "' not found");
+        // };
+        //
+    }
 }
